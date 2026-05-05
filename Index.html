@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Young City Dance Foundation</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #ffffff;
+        color: #111;
+    }
+
+    header {
+        background: white;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 10px;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+    }
+
+    section {
+        padding: 40px 20px;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .hero h2 {
+        font-size: 32px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        background: black;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .gallery img, .gallery video {
+        width: 200px;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .contact-box {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+    }
+
+    input, textarea {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        border-top: 1px solid #eee;
+        margin-top: 40px;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Young City Dance Foundation</h1>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#upload">Upload</a>
+        <a href="#contact">Contact</a>
+        <a href="#admin">Admin</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+    <h2>Where Passion Meets Movement</h2>
+    <p>Welcome to Young City Dance Foundation — a group of passionate dancers united to inspire, create, and grow.</p>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+    <h2>About Us</h2>
+    <p>
+        Young City Dance Foundation is a creative dance group focused on talent development, teamwork, and expression through movement.
+        We aim to inspire young dancers to achieve greatness through discipline, creativity, and unity.
+    </p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery" id="galleryContainer"></div>
+</section>
+
+<!-- UPLOAD -->
+<section id="upload">
+    <h2>Upload Media</h2>
+
+    <h3>Upload Image</h3>
+    <input type="file" accept="image/*" onchange="uploadImage(event)">
+
+    <h3>Upload Video</h3>
+    <input type="file" accept="video/*" onchange="uploadVideo(event)">
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-box">
+        <p><b>Phone:</b> +254 700 000 000</p>
+        <p><b>Email:</b> youngcitydance@gmail.com</p>
+        <textarea placeholder="Send us a message"></textarea>
+        <button class="btn">Send</button>
+    </div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin">
+    <h2>Admin / Manager Info</h2>
+    <p>Edit the details below (saved in your device only):</p>
+
+    <input type="text" id="adminName" placeholder="Admin Name">
+    <input type="text" id="adminRole" placeholder="Role (e.g Manager / Founder)">
+    <textarea id="adminBio" placeholder="About admin..."></textarea>
+
+    <button class="btn" onclick="saveAdmin()">Save</button>
+
+    <div id="adminDisplay"></div>
+</section>
+
+<footer>
+    <p>© 2026 Young City Dance Foundation</p>
+</footer>
+
+<script>
+    // Load saved media
+    let gallery = document.getElementById("galleryContainer");
+
+    function uploadImage(event) {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            let img = document.createElement("img");
+            img.src = e.target.result;
+            gallery.appendChild(img);
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+    function uploadVideo(event) {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            let video = document.createElement("video");
+            video.src = e.target.result;
+            video.controls = true;
+            gallery.appendChild(video);
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+    // Admin storage
+    function saveAdmin() {
+        let name = document.getElementById("adminName").value;
+        let role = document.getElementById("adminRole").value;
+        let bio = document.getElementById("adminBio").value;
+
+        localStorage.setItem("adminName", name);
+        localStorage.setItem("adminRole", role);
+        localStorage.setItem("adminBio", bio);
+
+        showAdmin();
+    }
+
+    function showAdmin() {
+        let name = localStorage.getItem("adminName") || "";
+        let role = localStorage.getItem("adminRole") || "";
+        let bio = localStorage.getItem("adminBio") || "";
+
+        document.getElementById("adminDisplay").innerHTML = `
+            <h3>${name}</h3>
+            <p><b>${role}</b></p>
+            <p>${bio}</p>
+        `;
+    }
+
+    showAdmin();
+</script>
+
+</body>
+</html>
